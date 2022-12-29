@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <title>Stopwatch</title>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-5">Stopwatch</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div id="stopwatch">
+          <pre><h2 id="time">0:00:00</h2></pre>
+          <button id="start-stop" class="btn btn-primary btn-block mb-3">Start</button>
+          <button id="reset" class="btn btn-secondary btn-block">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const stopwatch = document.getElementById('stopwatch');
+    const time = document.getElementById('time');
+    const startStopButton = document.getElementById('start-stop');
+    const resetButton = document.getElementById('reset');
+
+    let interval;
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+
+    function updateTime() {
+      time.textContent = `${hours}:${minutes}:${seconds}`;
+      seconds++;
+      if (seconds === 60) {
+        minutes++;
+        seconds = 0;
+      }
+      if (minutes === 60) {
+        hours++;
+        minutes = 0;
+      }
+    }
+
+    startStopButton.addEventListener('click', () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+        startStopButton.textContent = 'Start';
+      } else {
+        interval = setInterval(updateTime, 1000);
+        startStopButton.textContent = 'Stop';
+      }
+    });
+
+    resetButton.addEventListener('click', () => {
+      clearInterval(interval);
+      interval = null;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      time.textContent = '0:00:00';
+      startStopButton.textContent = 'Start';
+    });
+  </script>
+  
+  <style>
+      body {
+          text-align: center;
+      }
+  </style>
+</body>
+</html>
